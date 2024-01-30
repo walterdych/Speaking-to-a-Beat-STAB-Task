@@ -18,11 +18,13 @@
 from psychopy import visual, core, event, gui, data, sound, prefs, monitors
 from psychopy import logging as psychoLog
 from psychopy.hardware import keyboard
+import pandas as pd
 import sounddevice as sd
 import numpy as np
 import scipy.io.wavfile as wav
 import datetime
 import time
+import pandas as pd
 prefs.hardware['audioLib'] = ['PTB', 'pygame', 'pyo', 'sounddevice']
 
 ###### Variables ######
@@ -91,18 +93,16 @@ def check_for_pause_or_quit(log_file=log_file, win=win):
 
 ###### Stimuli ######
 # Define the sentences to be used in the experiment
-sentences = [
-    "Brightly colored birds swiftly fly across clear skies.",
-    "Ancient forests house countless species unknown to science.",
-    "Innovative designs often lead to unexpected, remarkable outcomes.",
-    "Musical rhythms can influence emotions in profound ways.",
-    "Starry nights inspire poets and scientists alike deeply.",
-    "Complex algorithms decode patterns in vast data sets.",
-    "Robust debates foster critical thinking and intellectual growth.",
-    "Elegant equations often unveil truths about the universe.",
-    "Cultural diversity enriches societies in numerous, vibrant ways.",
-    "Effective communication bridges gaps between diverse communities globally."
-]
+condition_number = int(condition_number)
+print(condition_number)
+sentences = pd.DataFrame()
+if condition_number == 1:
+    sentences = pd.read_csv('stimuli/STAB_STIM_COND1.csv')
+elif condition_number == 2:
+    sentences = pd.read_csv('stimuli/STAB_STIM_COND2.csv')
+else:
+    print("Invalid condition number")
+
 
 # Metronome sound
 metronome = sound.Sound('stimuli/metronome.wav')
