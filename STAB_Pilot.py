@@ -39,7 +39,7 @@ recording_duration = 71  # Duration in seconds
 # Add dialog fields
 dlg = gui.Dlg(title='Participant Information')
 dlg.addField('Participant #')
-dlg.addField('Condition #')
+dlg.addField('Condition # (1 or 2)')
 dlg.show()
 participant_number = dlg.data[0]
 condition_number = dlg.data[1]
@@ -50,7 +50,7 @@ recording_filename = f"STAB_{participant_number}_COND{condition_number}_{date}.w
 psychoLog.console.setLevel(psychoLog.DATA) 
 # Create logger file name based on participant information
 psychoLog.data("Participant Number: {}".format(participant_number))
-psychoLog.data("Condition Number: {}".format(condition_number))
+psychoLog.data("Condition Number (1 or 2): {}".format(condition_number))
 psychoLog.data("Date: {}".format(date))
 logger_filename = f"data/STAB_{participant_number}_COND{condition_number}_{date}.log"
 psychoLog.setDefaultClock(core.Clock())
@@ -102,12 +102,12 @@ elif condition_number == 2:
     sentences = pd.read_csv('stimuli/STAB_STIM_COND2.csv')
 else:
     print("Invalid condition number")
-
+    psychoLog.data("Invalid condition number")
+    core.quit()
 
 # Metronome sound
 metronome = sound.Sound('stimuli/metronome.wav')
 sd.rec(int(recording_duration * sample_rate), samplerate=sample_rate, channels=1, blocking=False)
-
 
 ###### Istruction Screen######
 # Create text stimulus for instructions
