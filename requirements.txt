@@ -1,0 +1,4 @@
+psychopy
+sounddevice
+numpy
+scikit-learn
