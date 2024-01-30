@@ -25,6 +25,7 @@ import scipy.io.wavfile as wav
 import datetime
 import time
 import pandas as pd
+
 prefs.hardware['audioLib'] = ['PTB', 'pygame', 'pyo', 'sounddevice']
 
 ###### Variables ######
@@ -95,7 +96,7 @@ def check_for_pause_or_quit(log_file=log_file, win=win):
 # Define the sentences to be used in the experiment
 condition_number = int(condition_number)
 print(condition_number)
-sentences = pd.DataFrame()
+# Read the sentences from the CSV file based on the condition number
 if condition_number == 1:
     sentences = pd.read_csv('stimuli/STAB_STIM_COND1.csv')
 elif condition_number == 2:
@@ -141,18 +142,21 @@ for _ in range(16):
     time.sleep(word_duration)
 
 ###### Sentence Presentation Phase ######  
-# Assuming you have a window created named 'win'
 pause_text = visual.TextStim(win, text="Paused. Press 'P' to resume.")
-# Iterate through each sentence
-for sentence in sentences:
-    sentence_number = 0
-    words = sentence.split()
+
+sentence_number = 0  # Initialize sentence number outside the loop
+
+# Iterate through each sentence in the DataFrame
+for index, row in sentences.iterrows():
+    sentence = row['sentences']  # Assuming 'sentences' is the column name
+    words = sentence.split()  # Split the sentence into words
+
     # Iterate through each word
     for word in words:
         check_for_pause_or_quit()
         # Metronome Stimulus
         metronome.play()
-        # Log metroome stimulus
+        # Log metronome stimulus
         psychoLog.data("Tick!")
         # Create text stimulus for the word
         word_text = visual.TextStim(
